@@ -1,0 +1,9 @@
+mirrors:
+  spack-public:
+    binary: false
+    url: https://mirror.spack.io
+
+  sbndaq-suite:
+    binary: true
+    url: file:///software/spack_mirrors/sbndaq-suite/v1_10_01
+
