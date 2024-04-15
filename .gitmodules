@@ -1,0 +1,9 @@
+[submodule "var/spack/repos/fnal_art"]
+	path = var/spack/repos/fnal_art
+	url = git@github.com:SBNSoftware/fnal_art.git
+[submodule "var/spack/repos/sbn-spack"]
+	path = var/spack/repos/sbn-spack
+	url = git@github.com:SBNSoftware/sbn-spack.git
+[submodule "var/spack/repos/artdaq-spack"]
+	path = var/spack/repos/artdaq-spack
+	url = git@github.com:SBNSoftware/artdaq-spack.git
