@@ -1,7 +1,7 @@
 # Copyright Spack Project Developers. See COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
-
+export SPACK_DISABLE_LOCAL_CONFIG=true
 
 ########################################################################
 #
