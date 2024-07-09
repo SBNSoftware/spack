@@ -55,7 +55,9 @@ class ForkablePdb(pdb.Pdb):
     """
 
     try:
-        _original_stdin_fd = sys.stdin.fileno()
+        _original_stdin_fd = None
+        if sys.stdin is not None:
+            _original_stdin_fd = sys.stdin.fileno()
     except io.UnsupportedOperation:
         _original_stdin_fd = None
     _original_stdin = None
