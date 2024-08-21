@@ -35,11 +35,10 @@ import functools
 import os
 import re
 import sys
-from typing import Any, Callable, Dict, Generator, List, Optional, Tuple, Type, Union
+from typing import Any, Callable, Dict, Generator, List, Optional, Sequence, Tuple, Union
 
 from llnl.util import filesystem, lang, tty
 
-import spack.compilers
 import spack.paths
 import spack.platforms
 import spack.schema
@@ -107,7 +106,9 @@ CONFIG_DEFAULTS = {
 
 #: metavar to use for commands that accept scopes
 #: this is shorter and more readable than listing all choices
-SCOPES_METAVAR = "{defaults,system,site,user,command_line}[/PLATFORM] or env:ENVIRONMENT"
+SCOPES_METAVAR = (
+    "{defaults,system,site,user,command_line}[/PLATFORM[/OS[/TARGET]]] or env:ENVIRONMENT"
+)
 
 #: Base name for the (internal) overrides scope.
 _OVERRIDES_BASE_NAME = "overrides-"
@@ -117,21 +118,39 @@ YamlConfigDict = Dict[str, Any]
 
 
 class ConfigScope:
-    """This class represents a configuration scope.
+    def __init__(self, name: str) -> None:
+        self.name = name
+        self.writable = False
+        self.sections = syaml.syaml_dict()
 
-    A scope is one directory containing named configuration files.
-    Each file is a config "section" (e.g., mirrors, compilers, etc.).
-    """
+    def get_section_filename(self, section: str) -> str:
+        raise NotImplementedError
 
-    def __init__(self, name, path) -> None:
-        self.name = name  # scope name.
-        self.path = path  # path to directory containing configs.
-        self.sections = syaml.syaml_dict()  # sections read from config files.
+    def get_section(self, section: str) -> Optional[YamlConfigDict]:
+        raise NotImplementedError
+
+    def _write_section(self, section: str) -> None:
+        raise NotImplementedError
 
     @property
     def is_platform_dependent(self) -> bool:
-        """Returns true if the scope name is platform specific"""
-        return os.sep in self.name
+        return False
+
+    def clear(self) -> None:
+        """Empty cached config information."""
+        self.sections = syaml.syaml_dict()
+
+    def __repr__(self) -> str:
+        return f"<ConfigScope: {self.name}>"
+
+
+class DirectoryConfigScope(ConfigScope):
+    """Config scope backed by a directory containing one file per section."""
+
+    def __init__(self, name: str, path: str, *, writable: bool = True) -> None:
+        super().__init__(name)
+        self.path = path
+        self.writable = writable
 
     def get_section_filename(self, section: str) -> str:
         """Returns the filename associated with a given section"""
@@ -148,14 +167,15 @@ class ConfigScope:
         return self.sections[section]
 
     def _write_section(self, section: str) -> None:
+        if not self.writable:
+            raise ConfigError(f"Cannot write to immutable scope {self}")
+
         filename = self.get_section_filename(section)
         data = self.get_section(section)
         if data is None:
             return
 
-        # We copy data here to avoid adding defaults at write time
-        validate_data = copy.deepcopy(data)
-        validate(validate_data, SECTION_SCHEMAS[section])
+        validate(data, SECTION_SCHEMAS[section])
 
         try:
             filesystem.mkdirp(self.path)
@@ -167,19 +187,23 @@ class ConfigScope:
             else:
                 raise ConfigFileError(f"cannot write to '{filename}'") from e
 
-    def clear(self) -> None:
-        """Empty cached config information."""
-        self.sections = syaml.syaml_dict()
-
-    def __repr__(self) -> str:
-        return f"<ConfigScope: {self.name}: {self.path}>"
+    @property
+    def is_platform_dependent(self) -> bool:
+        """Returns true if the scope name is platform specific"""
+        return "/" in self.name
 
 
 class SingleFileScope(ConfigScope):
     """This class represents a configuration scope in a single YAML file."""
 
     def __init__(
-        self, name: str, path: str, schema: YamlConfigDict, yaml_path: Optional[List[str]] = None
+        self,
+        name: str,
+        path: str,
+        schema: YamlConfigDict,
+        *,
+        yaml_path: Optional[List[str]] = None,
+        writable: bool = True,
     ) -> None:
         """Similar to ``ConfigScope`` but can be embedded in another schema.
 
@@ -198,14 +222,12 @@ class SingleFileScope(ConfigScope):
                        config:
                          install_tree: $spack/opt/spack
         """
-        super().__init__(name, path)
+        super().__init__(name)
         self._raw_data: Optional[YamlConfigDict] = None
         self.schema = schema
+        self.path = path
+        self.writable = writable
         self.yaml_path = yaml_path or []
-
-    @property
-    def is_platform_dependent(self) -> bool:
-        return False
 
     def get_section_filename(self, section) -> str:
         return self.path
@@ -260,6 +282,8 @@ class SingleFileScope(ConfigScope):
         return self.sections.get(section, None)
 
     def _write_section(self, section: str) -> None:
+        if not self.writable:
+            raise ConfigError(f"Cannot write to immutable scope {self}")
         data_to_write: Optional[YamlConfigDict] = self._raw_data
 
         # If there is no existing data, this section SingleFileScope has never
@@ -307,19 +331,6 @@ class SingleFileScope(ConfigScope):
         return f"<SingleFileScope: {self.name}: {self.path}>"
 
 
-class ImmutableConfigScope(ConfigScope):
-    """A configuration scope that cannot be written to.
-
-    This is used for ConfigScopes passed on the command line.
-    """
-
-    def _write_section(self, section) -> None:
-        raise ConfigError(f"Cannot write to immutable scope {self}")
-
-    def __repr__(self) -> str:
-        return f"<ImmutableConfigScope: {self.name}: {self.path}>"
-
-
 class InternalConfigScope(ConfigScope):
     """An internal configuration scope that is not persisted to a file.
 
@@ -329,7 +340,7 @@ class InternalConfigScope(ConfigScope):
     """
 
     def __init__(self, name: str, data: Optional[YamlConfigDict] = None) -> None:
-        super().__init__(name, None)
+        super().__init__(name)
         self.sections = syaml.syaml_dict()
 
         if data is not None:
@@ -338,9 +349,6 @@ class InternalConfigScope(ConfigScope):
                 dsec = data[section]
                 validate({section: dsec}, SECTION_SCHEMAS[section])
                 self.sections[section] = _mark_internal(syaml.syaml_dict({section: dsec}), name)
-
-    def get_section_filename(self, section: str) -> str:
-        raise NotImplementedError("Cannot get filename for InternalConfigScope.")
 
     def get_section(self, section: str) -> Optional[YamlConfigDict]:
         """Just reads from an internal dictionary."""
@@ -446,24 +454,17 @@ class Configuration:
         return scope
 
     @property
-    def file_scopes(self) -> List[ConfigScope]:
-        """List of writable scopes with an associated file."""
-        return [
-            s
-            for s in self.scopes.values()
-            if (type(s) is ConfigScope or type(s) is SingleFileScope)
-        ]
+    def writable_scopes(self) -> Generator[ConfigScope, None, None]:
+        """Generator of writable scopes with an associated file."""
+        return (s for s in self.scopes.values() if s.writable)
 
     def highest_precedence_scope(self) -> ConfigScope:
-        """Non-internal scope with highest precedence."""
-        return next(reversed(self.file_scopes))
+        """Writable scope with highest precedence."""
+        return next(s for s in reversed(self.scopes.values()) if s.writable)  # type: ignore
 
     def highest_precedence_non_platform_scope(self) -> ConfigScope:
-        """Non-internal non-platform scope with highest precedence
-
-        Platform-specific scopes are of the form scope/platform"""
-        generator = self._non_platform_scopes
-        return next(generator)
+        """Writable non-platform scope with highest precedence"""
+        return next(s for s in self._non_platform_scopes if s.writable)
 
     def matching_scopes(self, reg_expr) -> List[ConfigScope]:
         """
@@ -714,11 +715,7 @@ class Configuration:
     @property
     def _non_platform_scopes(self):
         """Returns non-platform scopes, highest priority first."""
-        for s in reversed(self.file_scopes):
-            if s.is_platform_dependent:
-                continue
-            else:
-                yield s
+        return (s for s in reversed(self.scopes.values()) if not s.is_platform_dependent)
 
 
 @contextlib.contextmanager
@@ -767,25 +764,12 @@ COMMAND_LINE_SCOPES: List[str] = []
 
 
 def _add_platform_scopes(
-    cfg: Union[Configuration, lang.Singleton], scope_type: Type[ConfigScope], name: str, path: str
+    cfg: Union[Configuration, lang.Singleton], name: str, path: str, writable: bool = True
 ) -> None:
     """Add subdirectories for the current platform, os, and target."""
-    host_platform = spack.platforms.host()
-    platform = host_platform.name
-    oss = str(host_platform.operating_system("frontend"))
-    host_target = str(host_platform.target("frontend"))
 
-    scope_name = os.path.join(name, platform)
-    scope_path = os.path.join(path, platform)
-    cfg.push_scope(scope_type(scope_name, scope_path))
-
-    scope_name = os.path.join(scope_name, oss)
-    scope_path = os.path.join(scope_path, oss)
-    cfg.push_scope(scope_type(scope_name, scope_path))
-
-    scope_name = os.path.join(scope_name, host_target)
-    scope_path = os.path.join(scope_path, host_target)
-    cfg.push_scope(scope_type(scope_name, scope_path))
+    for scope in platform_scopes(name, path, writable):
+        cfg.push_scope(scope)
 
 
 def config_paths_from_entry_points() -> List[Tuple[str, str]]:
@@ -816,22 +800,27 @@ def config_paths_from_entry_points() -> List[Tuple[str, str]]:
 def _add_command_line_scopes(
     cfg: Union[Configuration, lang.Singleton], command_line_scopes: List[str]
 ) -> None:
-    """Add additional scopes from the --config-scope argument.
+    """Add additional scopes from the --config-scope argument, either envs or dirs."""
+    import spack.environment.environment as env  # circular import
 
-    Command line scopes are named after their position in the arg list.
-    """
     for i, path in enumerate(command_line_scopes):
-        # We ensure that these scopes exist and are readable, as they are
-        # provided on the command line by the user.
-        if not os.path.isdir(path):
-            raise ConfigError(f"config scope is not a directory: '{path}'")
-        elif not os.access(path, os.R_OK):
-            raise ConfigError(f"config scope is not readable: '{path}'")
+        name = f"cmd_scope_{i}"
 
-        # name based on order on the command line
-        name = f"cmd_scope_{i:d}"
-        cfg.push_scope(ImmutableConfigScope(name, path))
-        _add_platform_scopes(cfg, ImmutableConfigScope, name, path)
+        if env.exists(path):  # managed environment
+            manifest = env.EnvironmentManifestFile(env.root(path))
+        elif env.is_env_dir(path):  # anonymous environment
+            manifest = env.EnvironmentManifestFile(path)
+        elif os.path.isdir(path):  # directory with config files
+            cfg.push_scope(DirectoryConfigScope(name, path, writable=False))
+            _add_platform_scopes(cfg, name, path, writable=False)
+            continue
+        else:
+            raise ConfigError(f"Invalid configuration scope: {path}")
+
+        for scope in manifest.env_config_scopes:
+            scope.name = f"{name}:{scope.name}"
+            scope.writable = False
+            cfg.push_scope(scope)
 
 
 def create() -> Configuration:
@@ -875,10 +864,10 @@ def create() -> Configuration:
 
     # add each scope and its platform-specific directory
     for name, path in configuration_paths:
-        cfg.push_scope(ConfigScope(name, path))
+        cfg.push_scope(DirectoryConfigScope(name, path))
 
         # Each scope can have per-platfom overrides in subdirectories
-        _add_platform_scopes(cfg, ConfigScope, name, path)
+        _add_platform_scopes(cfg, name, path)
 
     # add command-line scopes
     _add_command_line_scopes(cfg, COMMAND_LINE_SCOPES)
@@ -993,7 +982,7 @@ def set(path: str, value: Any, scope: Optional[str] = None) -> None:
 def add_default_platform_scope(platform: str) -> None:
     plat_name = os.path.join("defaults", platform)
     plat_path = os.path.join(CONFIGURATION_DEFAULTS_PATH[1], platform)
-    CONFIG.push_scope(ConfigScope(plat_name, plat_path))
+    CONFIG.push_scope(DirectoryConfigScope(plat_name, plat_path))
 
 
 def scopes() -> Dict[str, ConfigScope]:
@@ -1002,19 +991,10 @@ def scopes() -> Dict[str, ConfigScope]:
 
 
 def writable_scopes() -> List[ConfigScope]:
-    """
-    Return list of writable scopes. Higher-priority scopes come first in the
-    list.
-    """
-    return list(
-        reversed(
-            list(
-                x
-                for x in CONFIG.scopes.values()
-                if not isinstance(x, (InternalConfigScope, ImmutableConfigScope))
-            )
-        )
-    )
+    """Return list of writable scopes. Higher-priority scopes come first in the list."""
+    scopes = [x for x in CONFIG.scopes.values() if x.writable]
+    scopes.reverse()
+    return scopes
 
 
 def writable_scope_names() -> List[str]:
@@ -1104,11 +1084,8 @@ def validate(
     """
     import jsonschema
 
-    # Validate a copy to avoid adding defaults
-    # This allows us to round-trip data without adding to it.
-    test_data = syaml.deepcopy(data)
     try:
-        spack.schema.Validator(schema).validate(test_data)
+        spack.schema.Validator(schema).validate(data)
     except jsonschema.ValidationError as e:
         if hasattr(e.instance, "lc"):
             line_number = e.instance.lc.line + 1
@@ -1117,7 +1094,7 @@ def validate(
         raise ConfigFormatError(e, data, filename, line_number) from e
     # return the validated data so that we can access the raw data
     # mostly relevant for environments
-    return test_data
+    return data
 
 
 def read_config_file(
@@ -1586,8 +1563,9 @@ def ensure_latest_format_fn(section: str) -> Callable[[YamlConfigDict], bool]:
 def use_configuration(
     *scopes_or_paths: Union[ConfigScope, str]
 ) -> Generator[Configuration, None, None]:
-    """Use the configuration scopes passed as arguments within the
-    context manager.
+    """Use the configuration scopes passed as arguments within the context manager.
+
+    This function invalidates caches, and is therefore very slow.
 
     Args:
         *scopes_or_paths: scope objects or paths to be used
@@ -1622,7 +1600,7 @@ def _config_from(scopes_or_paths: List[Union[ConfigScope, str]]) -> Configuratio
         path = os.path.normpath(scope_or_path)
         assert os.path.isdir(path), f'"{path}" must be a directory'
         name = os.path.basename(path)
-        scopes.append(ConfigScope(name, path))
+        scopes.append(DirectoryConfigScope(name, path))
 
     configuration = Configuration(*scopes)
     return configuration
@@ -1761,6 +1739,29 @@ def parse_spec_from_yaml_string(string: str) -> "spack.spec.Spec":
             msg = f"{mark.name}:{mark.line + 1}: {str(e)}"
             raise spack.parser.SpecSyntaxError(msg) from e
         raise e
+
+
+def platform_scopes(name: str, path: str, writable: bool = True) -> Sequence[DirectoryConfigScope]:
+    """Generate a triplet of scopes for platform/os/target."""
+
+    host_platform = spack.platforms.host()
+    platform = host_platform.name
+    oss = str(host_platform.operating_system("frontend"))
+    host_target = str(host_platform.target("frontend"))
+
+    scope_name = os.path.join(name, platform)
+    scope_path = os.path.join(path, platform)
+    scopes = [DirectoryConfigScope(scope_name, scope_path, writable=writable)]
+
+    scope_name = os.path.join(scope_name, oss)
+    scope_path = os.path.join(scope_path, oss)
+    scopes.append(DirectoryConfigScope(scope_name, scope_path, writable=writable))
+
+    scope_name = os.path.join(scope_name, host_target)
+    scope_path = os.path.join(scope_path, host_target)
+    scopes.append(DirectoryConfigScope(scope_name, scope_path, writable=writable))
+
+    return scopes
 
 
 class ConfigError(SpackError):

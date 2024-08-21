@@ -3,6 +3,7 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 import os
+import pathlib
 import re
 
 from llnl.util.filesystem import force_remove, working_dir
@@ -89,6 +90,9 @@ class Binutils(AutotoolsPackage, GNUMirrorPackage):
         deprecated=True,
     )
 
+    depends_on("c", type="build")  # generated
+    depends_on("cxx", type="build")  # generated
+
     variant("plugins", default=True, description="enable plugins, needed for gold linker")
     # When you build ld.gold you automatically get ld, even when you add the
     # --disable-ld flag
@@ -128,6 +132,7 @@ class Binutils(AutotoolsPackage, GNUMirrorPackage):
     # 2.36 is missing some dependencies, this patch allows a parallel build.
     # https://sourceware.org/bugzilla/show_bug.cgi?id=27482
     patch("parallel-build-2.36.patch", when="@2.36")
+    patch("gold-gcc4.patch", when="@2.42 %gcc@:4.8.5")
 
     # 2.39 has an issue with acting on failed makeinfo version
     # requirements, see:
@@ -180,10 +185,6 @@ class Binutils(AutotoolsPackage, GNUMirrorPackage):
     # when compiling with debug symbols on gcc.
     conflicts("+gas", "~ld", msg="Assembler not always compatible with system ld")
 
-    # When you build ld.gold you automatically get ld, even when you add the
-    # --disable-ld flag
-    conflicts("~ld", "+gold")
-
     @when("@2.39")
     @run_before("autoreconf")
     def force_autoreconf_gprofng(self):
@@ -196,17 +197,19 @@ class Binutils(AutotoolsPackage, GNUMirrorPackage):
         match = re.search(r"GNU (nm|readelf).* (\S+)", output)
         return Version(match.group(2)).dotted.up_to(3) if match else None
 
-    @run_after("install")
-    def install_headers(self):
-        # some packages (like TAU) need the ELF headers, so install them
-        # as a subdirectory in include/extras
-        if "+headers" in self.spec:
-            extradir = join_path(self.prefix.include, "extra")
-            mkdirp(extradir)
-            # grab the full binutils set of headers
-            install_tree("include", extradir)
-            # also grab the headers from the bfd directory
-            install(join_path(self.build_directory, "bfd", "*.h"), extradir)
+    @classmethod
+    def determine_variants(cls, exes, version_str):
+        bin_dir = pathlib.Path(exes[0]).parent
+        include_dir = bin_dir.parent / "include"
+        plugin_h = include_dir / "plugin-api.h"
+
+        variants = "+gold" if find(str(bin_dir), "gold", recursive=False) else "~gold"
+        if find(str(include_dir), str(plugin_h), recursive=False):
+            variants += "+headers"
+        else:
+            variants += "~headers"
+
+        return variants
 
     def flag_handler(self, name, flags):
         spec = self.spec
@@ -269,7 +272,7 @@ class Binutils(AutotoolsPackage, GNUMirrorPackage):
 class AutotoolsBuilder(spack.build_systems.autotools.AutotoolsBuilder):
     def configure_args(self):
         known_targets = {"x86_64": "x86_64", "aarch64": "aarch64", "ppc64le": "powerpc"}
-        known_platforms = {"linux": "linux-gnu", "cray": "linux-gnu", "darwin": "apple-darwin"}
+        known_platforms = {"linux": "linux-gnu", "darwin": "apple-darwin"}
 
         family = str(self.spec.target.family)
         platform = self.spec.platform

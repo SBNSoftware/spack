@@ -21,6 +21,11 @@ class PerlModuleBuild(PerlPackage):
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 
     version(
+        "0.42.34",
+        sha256="66aeac6127418be5e471ead3744648c766bd01482825c5b66652675f2bc86a8f",
+        url="https://cpan.metacpan.org/authors/id/L/LE/LEONT/Module-Build-0.4234.tar.gz",
+    )
+    version(
         "0.42.32",
         sha256="67c82ee245d94ba06decfa25572ab75fdcd26a9009094289d8f45bc54041771b",
         url="https://cpan.metacpan.org/authors/id/L/LE/LEONT/Module-Build-0.4232.tar.gz",

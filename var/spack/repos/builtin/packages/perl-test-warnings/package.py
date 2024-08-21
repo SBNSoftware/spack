@@ -14,6 +14,7 @@ class PerlTestWarnings(PerlPackage):
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 
+    version("0.033", sha256="b9c375719f2c61c5f97aa5ee6cf4c901a972347c415969379b0b51f67c48bbcb")
     version("0.031", sha256="1e542909fef305e45563e9878ea1c3b0c7cef1b28bb7ae07eba2e1efabec477b")
     version("0.030", sha256="89a4947ddf1564ae01122275584433d7f6c4370370bcf3768922d796956ae24f")
     version("0.029", sha256="b55214ea50395f1ae14ac504dd3d0d21580a92c558e8049cbe7b3ac42add1792")

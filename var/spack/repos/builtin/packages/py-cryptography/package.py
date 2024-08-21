@@ -15,10 +15,10 @@ class PyCryptography(PythonPackage):
 
     license("Apache-2.0")
 
+    version("42.0.8", sha256="8d09d05439ce7baa8e9e95b07ec5b6c886f548deb7e0f69ef25f64b3bce842f2")
+    version("41.0.7", sha256="13f93ce9bea8016c253b34afc6bd6a75993e5c40672ed5405a9c832f0d4a00bc")
     version("41.0.3", sha256="6d192741113ef5e30d89dcb5b956ef4e1578f304708701b8b73d38e3e1461f34")
     version("40.0.2", sha256="c33c0d32b8594fa647d2e01dbccc303478e16fdd7cf98652d5b3ed11aa5e5c99")
-    version("39.0.2", sha256="bc5b871e977c8ee5a1bbc42fa8d19bcc08baf0c51cbf1586b0e87a2694dde42f")
-    version("38.0.4", sha256="175c1a818b87c9ac80bb7377f5520b7f31b3ef2a0004e2420319beadedb67290")
     version("38.0.1", sha256="1db3d807a14931fa317f96435695d9ec386be7b84b618cc61cfa5d08b0ae33d7")
     version("37.0.4", sha256="63f9c17c0e2474ccbebc9302ce2f07b55b3b3fcb211ded18a42d5764f5c10a82")
     version("36.0.1", sha256="53e5c1dc3d7a953de055d77bef2ff607ceef7a2aac0353b5d630ab67f7423638")
@@ -41,6 +41,7 @@ class PyCryptography(PythonPackage):
     depends_on("py-setuptools@40.6:", when="@2.7:36", type="build")
     depends_on("py-setuptools@18.5:", when="@2.2:2.6", type="build")
     depends_on("py-setuptools@11.3:", when="@:2.1", type="build")
+    depends_on("py-setuptools-rust@1.7.0:", when="@42:", type=("build", "run"))
     depends_on("py-setuptools-rust@0.11.4:", when="@3.4.2:", type="build")
     depends_on("py-setuptools-rust@0.11.4:", when="@3.4:3.4.1", type=("build", "run"))
     depends_on("rust@1.56:", when="@41:", type="build")
@@ -59,13 +60,9 @@ class PyCryptography(PythonPackage):
     depends_on("py-idna@2.1:", type=("build", "run"), when="@:2.4")  # deprecated
     depends_on("py-idna@2.1:", type=("build", "run"), when="@2.5: +idna")  # deprecated
 
-    depends_on("openssl@:1.0", when="@:1.4")
-    depends_on("openssl@1.0.0:1.1.0", when="@1.5:1.6")
-    depends_on("openssl@1.0.1:1.1.0", when="@1.7:2.3")
-    depends_on("openssl@1.0.1:1.1.1", when="@2.4:2.9")
-    depends_on("openssl@1.0.2:1.1.1", when="@3.0:3.2")
-    depends_on("openssl@1.1.0:1.1.1", when="@3.3:")
-    depends_on("openssl@1.1.0:", when="@35:38")
+    depends_on("openssl")
+    depends_on("openssl@:1.0", when="@:1.8.1")
+    depends_on("openssl@:1.1", when="@:3.4")
     depends_on("openssl@1.1.1:", when="@39:")
 
     # To fix https://github.com/spack/spack/issues/29669

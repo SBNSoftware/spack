@@ -21,6 +21,7 @@ class PerlMce(PerlPackage):
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 
+    version("1.889", sha256="db6153e474d046fc253050bf53c54002d84cd4ca77d21c2b9df56feeb809bbed")
     version("1.884", sha256="c830c0e548094f19c620049e744258be2c121d4a86cf7c94a37599ad016daf33")
     version("1.879", sha256="9c4cf39838b5c113448799af451b3d64b54e0de39d635536d7e85e8bdc5888dc")
     version("1.878", sha256="bb5713197cc5ab91302aec746b5cc7204bf84556c30d6af67ce34a6fd38444ad")

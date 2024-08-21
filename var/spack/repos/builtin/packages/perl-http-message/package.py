@@ -14,6 +14,7 @@ class PerlHttpMessage(PerlPackage):
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 
+    version("6.45", sha256="01cb8406612a3f738842d1e97313ae4d874870d1b8d6d66331f16000943d4cbe")
     version("6.44", sha256="398b647bf45aa972f432ec0111f6617742ba32fc773c6612d21f64ab4eacbca1")
     version("6.37", sha256="0e59da0a85e248831327ebfba66796314cb69f1bfeeff7a9da44ad766d07d802")
     version("6.36", sha256="576a53b486af87db56261a36099776370c06f0087d179fc8c7bb803b48cddd76")

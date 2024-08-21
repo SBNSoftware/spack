@@ -19,7 +19,6 @@ import spack.build_environment
 import spack.builder
 import spack.deptypes as dt
 import spack.package_base
-import spack.util.path
 from spack.directives import build_system, conflicts, depends_on, variant
 from spack.multimethod import when
 
@@ -42,16 +41,11 @@ def _maybe_set_python_hints(pkg: spack.package_base.PackageBase, args: List[str]
     """Set the PYTHON_EXECUTABLE, Python_EXECUTABLE, and Python3_EXECUTABLE CMake variables
     if the package has Python as build or link dep and ``find_python_hints`` is set to True. See
     ``find_python_hints`` for context."""
-    if not getattr(pkg, "find_python_hints", False):
+    if not getattr(pkg, "find_python_hints", False) or not pkg.spec.dependencies(
+        "python", dt.BUILD | dt.LINK
+    ):
         return
-    pythons = pkg.spec.dependencies("python", dt.BUILD | dt.LINK)
-    if len(pythons) != 1:
-        return
-    try:
-        python_executable = pythons[0].package.command.path
-    except RuntimeError:
-        return
-
+    python_executable = pkg.spec["python"].command.path
     args.extend(
         [
             CMakeBuilder.define("PYTHON_EXECUTABLE", python_executable),

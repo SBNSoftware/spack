@@ -7,6 +7,8 @@ import stat
 
 import pytest
 
+from llnl.util.symlink import readlink
+
 import spack.cmd.modules
 import spack.config
 import spack.error
@@ -65,7 +67,7 @@ def test_modules_written_with_proper_permissions(
     assert mock_package_perms & os.stat(mock_module_filename).st_mode == mock_package_perms
 
 
-@pytest.mark.parametrize("module_type", ["tcl", "lmod", "ups_table", "ups_version"])
+@pytest.mark.parametrize("module_type", ["tcl", "lmod"])
 def test_modules_default_symlink(
     module_type, mock_packages, mock_module_filename, mock_module_defaults, config
 ):
@@ -78,7 +80,7 @@ def test_modules_default_symlink(
 
     link_path = os.path.join(os.path.dirname(mock_module_filename), "default")
     assert os.path.islink(link_path)
-    assert os.readlink(link_path) == mock_module_filename
+    assert readlink(link_path) == mock_module_filename
 
     generator.remove()
     assert not os.path.lexists(link_path)

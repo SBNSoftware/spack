@@ -15,6 +15,11 @@ class PerlMoose(PerlPackage):
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 
     version(
+        "2.22.07",
+        sha256="7c2daddc49754ded93f65b8ce9e3ac9b6d11ab27d111ec77f95a8528cf4ac409",
+        url="https://cpan.metacpan.org/authors/id/E/ET/ETHER/Moose-2.2207.tar.gz",
+    )
+    version(
         "2.22.03",
         sha256="fa7814acf4073fa434c148d403cbbf8a7b62f73ad396fa8869f3036d6e3241a7",
         url="https://cpan.metacpan.org/authors/id/E/ET/ETHER/Moose-2.2203.tar.gz",
@@ -49,6 +54,8 @@ class PerlMoose(PerlPackage):
         sha256="a4e00ab25cc41bebc5e7a11d71375fb5e64b56d5f91159afee225d698e06392b",
         url="https://cpan.metacpan.org/authors/id/E/ET/ETHER/Moose-2.2006.tar.gz",
     )
+
+    depends_on("c", type="build")  # generated
 
     depends_on("perl-cpan-meta-check", type=("build", "run"))
     depends_on("perl-test-cleannamespaces", type=("build", "run"))

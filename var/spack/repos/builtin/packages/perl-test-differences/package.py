@@ -14,6 +14,7 @@ class PerlTestDifferences(PerlPackage):
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 
+    version("0.71", sha256="cac16a56cd843b0809e5b49199d60d75a8dbad7ca9a08380dbf3f5cc3aaa38d9")
     version("0.69", sha256="18f644fdd4a1fef93ef3f7f67df8e95b593d811899f34bcbbaba4d717222f58f")
     version("0.68", sha256="e68547206cb099a2594165ca0adc99fc12adb97c7f02a1222f62961fd775e270")
     version("0.67", sha256="c88dbbb48b934b069284874f33abbaaa438aa31204aa3fa73bfc2f4aeac878da")

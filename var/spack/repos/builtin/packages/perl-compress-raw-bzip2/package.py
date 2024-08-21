@@ -14,6 +14,7 @@ class PerlCompressRawBzip2(PerlPackage):
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 
+    version("2.212", sha256="6caeee843c428f45fa9646ea98dc675470db63dbac0ee3e2d8e9ee4eb58a856d")
     version("2.204", sha256="ee7b490e67e7e2a7a0e8c1e1aa29a9610066149f46b836921149ad1813f70c69")
     version("2.201", sha256="6204b270806d924e124e406faf6bbc715f7bb461dfdbea722042325633be300a")
     version("2.103", sha256="6172d16b0797b10a14e7e1e8dfddcd3d98910adcf5681285e716659f1197164d")
@@ -33,6 +34,8 @@ class PerlCompressRawBzip2(PerlPackage):
     version("2.084", sha256="7d16debb73eb862c6a3c2ab4bcc31f165023ad4a0a257316227ba550a8ce924f")
     version("2.083", sha256="8def391d67f974a8ff53151972c34615febbcf873a9a5fb1a5b2969cd407bddf")
     version("2.081", sha256="8692b5c9db91954408e24e805fbfda222879da80d89d9410791421e3e5bc3520")
+
+    depends_on("c", type="build")  # generated
 
     depends_on("bzip2")
     depends_on("perl-extutils-makemaker", type="build")

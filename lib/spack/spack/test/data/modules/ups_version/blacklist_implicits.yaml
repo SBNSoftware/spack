@@ -1,6 +1,0 @@
-enable:
-  - ups_version
-ups_version:
-  blacklist_implicits: true
-  all:
-    autoload: 'direct'

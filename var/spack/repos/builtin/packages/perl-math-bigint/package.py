@@ -13,6 +13,11 @@ class PerlMathBigint(PerlPackage):
     url = "https://cpan.metacpan.org/authors/id/P/PJ/PJACKLAM/Math-BigInt-1.999837.tar.gz"
 
     version(
+        "2.003.002",
+        sha256="5ac1fd255cca29d7cf5cb9283e6bb8177cdb07c5bb97502a58084b1c6eace35c",
+        url="https://cpan.metacpan.org/authors/id/P/PJ/PJACKLAM/Math-BigInt-2.003002.tar.gz",
+    )
+    version(
         "1.999.838",
         sha256="d3c2fb37d412ac8d126452caad5764f02193147261b59c56e652167c41d1e9d5",
         url="https://cpan.metacpan.org/authors/id/P/PJ/PJACKLAM/Math-BigInt-1.999838.tar.gz",

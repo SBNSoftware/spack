@@ -16,6 +16,7 @@ class PerlIoSocketSsl(PerlPackage):
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 
+    version("2.085", sha256="95b2f7c0628a7e246a159665fbf0620d0d7835e3a940f22d3fdd47c3aa799c2e")
     version("2.074", sha256="36486b6be49da4d029819cf7069a7b41ed48af0c87e23be0f8e6aba23d08a832")
     version("2.073", sha256="b2c0b34df97cb1aa816221cee2454a1efd89b86ccbda810389a30e0d08cf57c8")
     version("2.072", sha256="b5bee81db3905a9069340a450a48e1e1b32dec4ede0064f5703bafb9a707b89d")
@@ -54,27 +55,14 @@ class PerlIoSocketSsl(PerlPackage):
     depends_on("perl-net-ssleay@1.46:", type="run")
 
 
-class PerlBuilder(spack.build_systems.perl.PerlBuilder):
-    class _WrappedExecutable(Executable):
-        def __init__(self, executable):
-            super(PerlBuilder._WrappedExecutable, self).__init__(executable.path)
+    def configure(self, spec, prefix):
+        self.build_method = "Makefile.PL"
+        self.build_executable = inspect.getmodule(self).make
+        # Should I do external tests?
+        config_answers = ["n\n"]
+        config_answers_filename = "spack-config.in"
 
-        def __call__(self, *args, **kwargs):
-            # Do you want to run external tests?
-            config_answers = ["n\n"]
-            config_answers_filename = "spack-config.in"
-
-            with open(config_answers_filename, "w") as f:
-                f.writelines(config_answers)
-
-            with open(config_answers_filename, "r") as f:
-                super(PerlBuilder._WrappedExecutable, self).__call__(*args, **kwargs, input=f)
-
-    def configure(self, pkg, spec, prefix):
-        perl_safe = inspect.getmodule(self).perl
-        inspect.getmodule(self).perl = PerlBuilder._WrappedExecutable(perl_safe)
-
-        try:
-            super(PerlBuilder, self).configure(pkg, spec, prefix)
-        finally:
-            inspect.getmodule(self).perl = perl_safe
+        with open(config_answers_filename, "w") as f:
+            f.writelines(config_answers)
+        with open(config_answers_filename, "r") as f:
+            inspect.getmodule(self).perl("Makefile.PL", f"INSTALL_BASE={prefix}", input=f)
