@@ -148,6 +148,13 @@ class Root(CMakePackage):
         when="@6.30:6.30.04",
     )
 
+    # Fix TUri to be PCRE2 compatible
+    patch(
+        "https://github.com/root-project/root/pull/15988.patch?full_index=1",
+        sha256="9de4aa66f791dc3a1b9521995552b2d28b57be88a96a2e9e369977e32da26eb0",
+        when="@6.32.0:6.32.02",
+    )
+
     if sys.platform == "darwin":
         # Resolve non-standard use of uint, _cf_
         # https://sft.its.cern.ch/jira/browse/ROOT-7886.
@@ -424,7 +431,7 @@ class Root(CMakePackage):
     conflicts("+tmva-gpu", when="~cuda", msg="root+tmva-gpu requires CUDA")
     conflicts("+tmva-pymva", when="~tmva", msg="root+tmva-pymva requires TMVA")
     conflicts("+tmva-sofie", when="~tmva", msg="root+tmva-sofie requires TMVA")
-    conflicts("~http", when="@6.29.00: +webgui", msg="root+webgui requires HTTP")
+    conflicts("~http", when="+webgui", msg="root+webgui requires HTTP")
     conflicts("cxxstd=11", when="+root7", msg="root7 requires at least C++14")
     conflicts("cxxstd=11", when="@6.25.02:", msg="This version of root requires at least C++14")
     conflicts("cxxstd=14", when="@6.30.00:", msg="This version of root requires at least C++17")
@@ -780,7 +787,7 @@ class Root(CMakePackage):
             add_include_path("xproto")
         if "+opengl" in spec and "platform=darwin" not in spec:
             add_include_path("glew")
-            add_include_path("mesa-glu")
+            add_include_path("glu")
         if "platform=darwin" in spec:
             # Newer deployment targets cause fatal errors in rootcling, so
             # override with an empty value even though it may lead to link
