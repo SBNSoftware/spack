@@ -2,12 +2,15 @@ mirrors:
   spack-public:
     binary: false
     url: https://mirror.spack.io
-  scisoft:
-    url: https://scisoft.fnal.gov/scisoft/spack-mirror/spack-binary-cache-unified
-    signed: false
-  fnal: 
-    url: https://spack-cache-1.fnal.gov/binaries
-    signed: false
-  sbndaq-suite-v1_10_01:
-    url: file:///daq/software/spack_mirrors/sbndaq-suite/v1_10_01
+  #  scisoft:
+  #    url: https://scisoft.fnal.gov/scisoft/spack-mirror/spack-binary-cache-unified
+  #    signed: false
+  #  fnal: 
+  #    url: https://spack-cache-1.fnal.gov/binaries
+  #    signed: false
+  #  sbndaq-suite-v1_10_01:
+  #    url: file:///daq/software/spack_mirrors/sbndaq-suite/v1_10_01
+  #    signed: false
+  sbndaq-suite-v1_10_02:
+    url: file:///daq/software/spack_mirrors/sbndaq-suite/v1_10_02
     signed: false

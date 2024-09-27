@@ -43,6 +43,7 @@ class Gdb(AutotoolsPackage, GNUMirrorPackage):
     version("7.11.1", sha256="57e9e9aa3172ee16aa1e9c66fef08b4393b51872cc153e3f1ffdf18a57440586")
     version("7.10.1", sha256="ff14f8050e6484508c73cbfa63731e57901478490ca1672dc0b5e2b03f6af622")
 
+    depends_on("elfutils+nls ldflags=-lintl")
     depends_on("c", type="build")  # generated
     depends_on("cxx", type="build")  # generated
     depends_on("fortran", type="build")  # generated

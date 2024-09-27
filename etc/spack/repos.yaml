@@ -1,6 +1,7 @@
 repos:
-  - $spack/var/spack/repos/builtin
-  - $spack/var/spack/repos/fnal_art
-  - $spack/var/spack/repos/artdaq-spack
-  - $spack/var/spack/repos/sbn-spack
+- /daq/software/spack_packages/spack/v0.23.0.sbnd/NULL/var/mpd
+- $spack/var/spack/repos/builtin
+- $spack/var/spack/repos/fnal_art
+- $spack/var/spack/repos/artdaq-spack
 
+- $spack/var/spack/repos/sbn-spack
