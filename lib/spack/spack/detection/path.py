@@ -18,13 +18,14 @@ import llnl.util.filesystem
 import llnl.util.lang
 import llnl.util.tty
 
+import spack.spec
 import spack.util.elf as elf_utils
 import spack.util.environment
 import spack.util.environment as environment
 import spack.util.ld_so_conf
+import spack.util.parallel
 
 from .common import (
-    DetectedPackage,
     WindowsCompilerExternalPaths,
     WindowsKitExternalPaths,
     _convert_to_iterable,
@@ -65,6 +66,21 @@ def file_identifier(path):
     return s.st_dev, s.st_ino
 
 
+def dedupe_paths(paths: List[str]) -> List[str]:
+    """Deduplicate paths based on inode and device number. In case the list contains first a
+    symlink and then the directory it points to, the symlink is replaced with the directory path.
+    This ensures that we pick for example ``/usr/bin`` over ``/bin`` if the latter is a symlink to
+    the former`."""
+    seen: Dict[Tuple[int, int], str] = {}
+    for path in paths:
+        identifier = file_identifier(path)
+        if identifier not in seen:
+            seen[identifier] = path
+        elif not os.path.islink(path):
+            seen[identifier] = path
+    return list(seen.values())
+
+
 def executables_in_path(path_hints: List[str]) -> Dict[str, str]:
     """Get the paths of all executables available from the current PATH.
 
@@ -81,8 +97,7 @@ def executables_in_path(path_hints: List[str]) -> Dict[str, str]:
     """
     search_paths = llnl.util.filesystem.search_paths_for_executables(*path_hints)
     # Make use we don't doubly list /usr/lib and /lib etc
-    search_paths = list(llnl.util.lang.dedupe(search_paths, key=file_identifier))
-    return path_to_dict(search_paths)
+    return path_to_dict(dedupe_paths(search_paths))
 
 
 def accept_elf(path, host_compat):
@@ -143,7 +158,7 @@ def libraries_in_ld_and_system_library_path(
         search_paths = list(filter(os.path.isdir, search_paths))
 
     # Make use we don't doubly list /usr/lib and /lib etc
-    search_paths = list(llnl.util.lang.dedupe(search_paths, key=file_identifier))
+    search_paths = dedupe_paths(search_paths)
 
     try:
         host_compat = elf_utils.get_elf_compat(sys.executable)
@@ -229,7 +244,7 @@ class Finder:
 
     def detect_specs(
         self, *, pkg: Type["spack.package_base.PackageBase"], paths: List[str]
-    ) -> List[DetectedPackage]:
+    ) -> List["spack.spec.Spec"]:
         """Given a list of files matching the search patterns, returns a list of detected specs.
 
         Args:
@@ -295,16 +310,16 @@ class Finder:
                     warnings.warn(msg)
                     continue
 
-                if spec.external_path:
-                    prefix = spec.external_path
+                if not spec.external_path:
+                    spec.external_path = prefix
 
-                result.append(DetectedPackage(spec=spec, prefix=prefix))
+                result.append(spec)
 
         return result
 
     def find(
         self, *, pkg_name: str, repository, initial_guess: Optional[List[str]] = None
-    ) -> List[DetectedPackage]:
+    ) -> List["spack.spec.Spec"]:
         """For a given package, returns a list of detected specs.
 
         Args:
@@ -388,7 +403,7 @@ def by_path(
     *,
     path_hints: Optional[List[str]] = None,
     max_workers: Optional[int] = None,
-) -> Dict[str, List[DetectedPackage]]:
+) -> Dict[str, List["spack.spec.Spec"]]:
     """Return the list of packages that have been detected on the system, keyed by
     unqualified package name.
 
@@ -407,7 +422,7 @@ def by_path(
 
     result = collections.defaultdict(list)
     repository = spack.repo.PATH.ensure_unwrapped()
-    with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
+    with spack.util.parallel.make_concurrent_executor(max_workers, require_fork=False) as executor:
         for pkg in packages_to_search:
             executable_future = executor.submit(
                 executables_finder.find,
