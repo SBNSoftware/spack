@@ -12,8 +12,8 @@ import llnl.util.filesystem as fs
 
 import spack.compiler
 import spack.compilers
+import spack.config
 import spack.spec
-import spack.util.environment
 import spack.util.module_cmd
 from spack.compiler import Compiler
 from spack.util.executable import Executable, ProcessError
@@ -40,25 +40,6 @@ def test_multiple_conflicting_compiler_definitions(mutable_config):
     arch_spec = spack.spec.ArchSpec(("test", "test", "test"))
     cmp = spack.compilers.compiler_for_spec("clang@=0.0.0", arch_spec)
     assert cmp.f77 == "f77"
-
-
-def test_get_compiler_duplicates(mutable_config, compiler_factory):
-    # In this case there is only one instance of the specified compiler in
-    # the test configuration (so it is not actually a duplicate), but the
-    # method behaves the same.
-    cnl_compiler = compiler_factory(spec="gcc@4.5.0", operating_system="CNL")
-    # CNL compiler has no target attribute, and this is essential to make detection pass
-    del cnl_compiler["compiler"]["target"]
-    mutable_config.set(
-        "compilers", [compiler_factory(spec="gcc@4.5.0", operating_system="SuSE11"), cnl_compiler]
-    )
-    cfg_file_to_duplicates = spack.compilers.get_compiler_duplicates(
-        "gcc@4.5.0", spack.spec.ArchSpec("cray-CNL-xeon")
-    )
-
-    assert len(cfg_file_to_duplicates) == 1
-    cfg_file, duplicates = next(iter(cfg_file_to_duplicates.items()))
-    assert len(duplicates) == 1
 
 
 def test_compiler_flags_from_config_are_grouped():
@@ -480,9 +461,13 @@ def test_intel_flags():
     unsupported_flag_test("cxx14_flag", "intel@=14.0")
     supported_flag_test("cxx14_flag", "-std=c++1y", "intel@=15.0")
     supported_flag_test("cxx14_flag", "-std=c++14", "intel@=15.0.2")
+    unsupported_flag_test("cxx17_flag", "intel@=18")
+    supported_flag_test("cxx17_flag", "-std=c++17", "intel@=19.0")
     unsupported_flag_test("c99_flag", "intel@=11.0")
     supported_flag_test("c99_flag", "-std=c99", "intel@=12.0")
     unsupported_flag_test("c11_flag", "intel@=15.0")
+    supported_flag_test("c18_flag", "-std=c18", "intel@=21.5.0")
+    unsupported_flag_test("c18_flag", "intel@=21.4.0")
     supported_flag_test("c11_flag", "-std=c1x", "intel@=16.0")
     supported_flag_test("cc_pic_flag", "-fPIC", "intel@=1.0")
     supported_flag_test("cxx_pic_flag", "-fPIC", "intel@=1.0")
@@ -608,6 +593,7 @@ def test_xl_r_flags():
     "compiler_spec,expected_result",
     [("gcc@4.7.2", False), ("clang@3.3", False), ("clang@8.0.0", True)],
 )
+@pytest.mark.not_on_windows("GCC and LLVM currently not supported on the platform")
 def test_detecting_mixed_toolchains(
     compiler_spec, expected_result, mutable_config, compiler_factory
 ):
