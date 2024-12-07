@@ -121,7 +121,6 @@ class GobjectIntrospection(MesonPackage, AutotoolsPackage):
         env.prepend_path("XDG_DATA_DIRS", self.prefix.share)
         env.prepend_path("GI_TYPELIB_PATH", join_path(self.prefix.lib, "girepository-1.0"))
         env.set("GI_SCANNER_DISABLE_CACHE", "1")
-        env.prepend_path("LD_LIBRARY_PATH", self.spec["glib"].prefix.lib)
 
     def setup_dependent_run_environment(self, env, dependent_spec):
         env.prepend_path("XDG_DATA_DIRS", self.prefix.share)
