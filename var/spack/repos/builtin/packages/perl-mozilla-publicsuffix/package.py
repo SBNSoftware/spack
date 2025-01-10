@@ -7,6 +7,7 @@ import inspect
 
 from llnl.util.filesystem import filter_file
 
+import spack.build_systems.perl
 from spack.package import *
 
 

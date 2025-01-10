@@ -4,6 +4,7 @@
 
 import inspect
 
+import spack.build_systems.perl
 from spack.package import *
 
 
