@@ -11,7 +11,7 @@ class PySphinxToolbox(PythonPackage):
     homepage = "https://github.com/sphinx-toolbox/sphinx-toolbox"
     pypi = "sphinx_toolbox/sphinx_toolbox-3.5.0.tar.gz"
 
-    maintainers("greenc-FNAL", "gartung", "LydDeb", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "LydDeb", "marcmengel")
 
     license("MIT")
 

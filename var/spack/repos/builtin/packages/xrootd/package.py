@@ -18,7 +18,7 @@ class Xrootd(CMakePackage):
     list_url = "https://xrootd.web.cern.ch/dload.html"
     git = "https://github.com/xrootd/xrootd.git"
 
-    maintainers("gartung", "greenc-FNAL", "marcmengel", "vitodb", "wdconinc")
+    maintainers("gartung", "greenc-FNAL", "marcmengel", "wdconinc")
 
     license("LGPL-3.0-only")
 

@@ -11,7 +11,7 @@ class PyCoincidence(PythonPackage):
     homepage = "https://github.com/python-coincidence/coincidence"
     pypi = "coincidence/coincidence-0.6.5.tar.gz"
 
-    maintainers("greenc-FNAL", "gartung", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "marcmengel")
 
     license("MIT")
 

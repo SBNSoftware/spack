@@ -11,7 +11,7 @@ class PerlTestNowarnings(PerlPackage):
     homepage = "https://metacpan.org/pod/Test::NoWarnings"
     url = "https://cpan.metacpan.org/authors/id/H/HA/HAARG/Test-NoWarnings-1.06.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vito")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("LGPL-2.1-only")
 

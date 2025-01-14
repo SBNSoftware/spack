@@ -13,7 +13,7 @@ class PyFuro(PythonPackage):
 
     license("MIT")
 
-    maintainers("greenc-FNAL", "gartung", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "marcmengel")
 
     version("2024.7.18", sha256="37b08c5fccc95d46d8712c8be97acd46043963895edde05b0f4f135d58325c83")
     version("2024.5.6", sha256="81f205a6605ebccbb883350432b4831c0196dd3d1bc92f61e1f459045b3d2b0b")

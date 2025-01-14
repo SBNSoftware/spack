@@ -11,7 +11,7 @@ class PerlMooxTypesMooselike(PerlPackage):
     homepage = "https://metacpan.org/pod/MooX::Types::MooseLike"
     url = "https://cpan.metacpan.org/authors/id/M/MA/MATEU/MooX-Types-MooseLike-0.29.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vito")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     version("0.29", sha256="1d3780aa9bea430afbe65aa8c76e718f1045ce788aadda4116f59d3b7a7ad2b4")
     version("0.28", sha256="635e57c26cacbf30647418eb1895c8d33927bf4f35d8ce25df2466756b174e95")

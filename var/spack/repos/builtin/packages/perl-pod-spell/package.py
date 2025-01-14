@@ -11,7 +11,7 @@ class PerlPodSpell(PerlPackage):
     homepage = "https://metacpan.org/pod/Pod::Spell"
     url = "https://cpan.metacpan.org/authors/id/H/HA/HAARG/Pod-Spell-1.26.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vito")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("Artistic-2.0")
 

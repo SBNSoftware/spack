@@ -13,7 +13,7 @@ class PySphinxPrompt(PythonPackage):
 
     license("BSD-3-Clause")
 
-    maintainers("greenc-FNAL", "gartung", "LydDeb", "marcmengel", "vito")
+    maintainers("gartung", "greenc-FNAL", "LydDeb", "marcmengel")
 
     version("1.8.0", sha256="47482f86fcec29662fdfd23e7c04ef03582714195d01f5d565403320084372ed")
     version("1.1.0", sha256="3d9cf382b750291f73d1f6f1713c4af0557c30208af124cd3d8731e607a4febf")

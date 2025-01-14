@@ -14,7 +14,7 @@ class Gsoap(AutotoolsPackage, SourceforgePackage):
 
     sourceforge_mirror_path = "gsoap2/gsoap_2.8.127.zip"
 
-    maintainers("greenc-FNAL", "gartung", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "marcmengel")
 
     version("2.8.135", sha256="b11757e405d55d4674dfbf88c4fa6d7e24155cf64ed8ed578ccad2f2b555e98d")
     with default_args(deprecated=True):

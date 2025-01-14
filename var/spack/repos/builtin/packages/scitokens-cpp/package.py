@@ -12,7 +12,7 @@ class ScitokensCpp(CMakePackage):
     homepage = "https://github.com/scitokens/scitokens-cpp"
     url = "https://github.com/scitokens/scitokens-cpp/archive/refs/tags/v0.7.0.tar.gz"
 
-    maintainers("gartung", "greenc-FNAL", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "marcmengel")
 
     license("Apache-2.0")
 

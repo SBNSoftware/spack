@@ -14,7 +14,7 @@ class PerlTestLeaktrace(PerlPackage):
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 
-    maintainers("greenc-FNAL", "gartung", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "marcmengel")
 
     version("0.17", sha256="777d64d2938f5ea586300eef97ef03eacb43d4c1853c9c3b1091eb3311467970")
     version("0.16", sha256="5f089eed915f1ec8c743f6d2777c3ecd0ca01df2f7b9e10038d316952583e403")

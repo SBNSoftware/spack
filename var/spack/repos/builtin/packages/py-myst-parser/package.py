@@ -17,7 +17,7 @@ class PyMystParser(PythonPackage):
 
     license("MIT")
 
-    maintainers("greenc-FNAL", "gartung", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "marcmengel")
 
     version("1.0.0", sha256="502845659313099542bd38a2ae62f01360e7dd4b1310f025dd014dfc0439cdae")
     version("0.18.1", sha256="79317f4bb2c13053dd6e64f9da1ba1da6cd9c40c8a430c447a7b146a594c246d")

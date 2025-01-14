@@ -11,7 +11,7 @@ class JwtCpp(CMakePackage):
     homepage = "https://thalhammer.github.io/jwt-cpp/"
     url = "https://github.com/Thalhammer/jwt-cpp/archive/refs/tags/v0.4.0.tar.gz"
 
-    maintainers("gartung", "greenc-FNAL", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "marcmengel")
 
     license("MIT")
 

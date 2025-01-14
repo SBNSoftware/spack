@@ -11,7 +11,7 @@ class PerlHttpCookiejar(PerlPackage):
     homepage = "https://metacpan.org/pod/HTTP::CookieJar"
     url = "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/HTTP-CookieJar-0.014.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vitodb")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("Apache-2.0")
 

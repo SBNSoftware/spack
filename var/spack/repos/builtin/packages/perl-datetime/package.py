@@ -11,7 +11,7 @@ class PerlDatetime(PerlPackage):
     homepage = "https://metacpan.org/pod/DateTime"
     url = "https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/DateTime-1.65.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vitodb")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("Artistic-2.0")
 

@@ -11,7 +11,7 @@ class Davix(CMakePackage):
     homepage = "https://davix.web.cern.ch/davix/docs/devel/index.html"
     url = "https://github.com/cern-fts/davix/releases/download/R_0_8_7/davix-0.8.7.tar.gz"
 
-    maintainers("gartung", "greenc-FNAL", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "marcmengel")
 
     license("LGPL-2.1-or-later")
 

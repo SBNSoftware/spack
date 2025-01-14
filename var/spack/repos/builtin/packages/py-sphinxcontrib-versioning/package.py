@@ -13,7 +13,7 @@ class PySphinxcontribVersioning(PythonPackage):
 
     license("MIT", checked_by="greenc-FNAL")
 
-    maintainers("greenc-FNAL", "gartung", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "marcmengel")
 
     version("2.2.1", sha256="1a5fe9b4e36020488d0d037fccc0b21aaf71b80425cad42ef4a5e5c3c193d3cd")
 
