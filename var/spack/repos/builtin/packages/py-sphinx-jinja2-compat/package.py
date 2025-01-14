@@ -11,7 +11,7 @@ class PySphinxJinja2Compat(PythonPackage):
     homepage = "https://github.com/sphinx-toolbox/sphinx-jinja2-compat"
     pypi = "sphinx_jinja2_compat/sphinx_jinja2_compat-0.2.0.post1.tar.gz"
 
-    maintainers("greenc-FNAL", "gartung", "LydDeb", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "LydDeb", "marcmengel")
 
     license("MIT")
 

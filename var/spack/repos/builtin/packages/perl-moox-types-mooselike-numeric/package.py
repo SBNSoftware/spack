@@ -13,7 +13,7 @@ class PerlMooxTypesMooselikeNumeric(PerlPackage):
         "https://cpan.metacpan.org/authors/id/M/MA/MATEU/MooX-Types-MooseLike-Numeric-1.03.tar.gz"
     )
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vito")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("Artistic-1.0-Perl OR GPL-1.0-or-later")
 

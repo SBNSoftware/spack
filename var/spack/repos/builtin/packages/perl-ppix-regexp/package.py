@@ -11,7 +11,7 @@ class PerlPpixRegexp(PerlPackage):
     homepage = "https://metacpan.org/pod/PPIx::Regexp"
     url = "https://cpan.metacpan.org/authors/id/W/WY/WYANT/PPIx-Regexp-0.088.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vito")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("Artistic-1.0-Perl OR GPL-1.0-or-later")
 

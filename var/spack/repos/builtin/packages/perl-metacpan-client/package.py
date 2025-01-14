@@ -11,7 +11,7 @@ class PerlMetacpanClient(PerlPackage):
     homepage = "https://metacpan.org/pod/MetaCPAN::Client"
     url = "https://cpan.metacpan.org/authors/id/M/MI/MICKEY/MetaCPAN-Client-2.031000.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vito")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("Artistic-1.0-Perl OR GPL-1.0-or-later")
 

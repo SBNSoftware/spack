@@ -11,7 +11,7 @@ class PerlDevelSymdump(PerlPackage):
     homepage = "https://metacpan.org/pod/Devel::Symdump"
     url = "https://cpan.metacpan.org/authors/id/A/AN/ANDK/Devel-Symdump-2.0604.tar.gz"
 
-    maintainers("greenc-FNAL", "gartung", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "marcmengel")
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 

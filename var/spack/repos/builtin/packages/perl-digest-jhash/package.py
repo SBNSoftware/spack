@@ -11,7 +11,7 @@ class PerlDigestJhash(PerlPackage):
     homepage = "https://metacpan.org/pod/Digest::JHash"
     url = "https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Digest-JHash-0.10.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vitodb")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("Artistic-2.0")
 

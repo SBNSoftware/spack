@@ -11,7 +11,7 @@ class PerlPerlTidy(PerlPackage):
     homepage = "https://metacpan.org/pod/Perl::Tidy"
     url = "https://cpan.metacpan.org/authors/id/S/SH/SHANCOCK/Perl-Tidy-20240202.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vito")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("GPL-2.0-only")
 

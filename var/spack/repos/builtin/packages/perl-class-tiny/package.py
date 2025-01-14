@@ -11,7 +11,7 @@ class PerlClassTiny(PerlPackage):
     homepage = "https://metacpan.org/pod/Class::Tiny"
     url = "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Class-Tiny-1.008.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vitodb")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("Apache-2.0")
 

@@ -11,7 +11,7 @@ class PerlDatetimeTimezone(PerlPackage):
     homepage = "https://metacpan.org/pod/DateTime::TimeZone"
     url = "https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/DateTime-TimeZone-2.60.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vitodb")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 

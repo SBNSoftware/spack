@@ -11,7 +11,7 @@ class PerlPerlCriticMoose(PerlPackage):
     homepage = "https://metacpan.org/pod/Perl::Critic::Moose"
     url = "https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/Perl-Critic-Moose-1.05.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vito")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("Artistic-1.0-Perl OR GPL-1.0-or-later")
 

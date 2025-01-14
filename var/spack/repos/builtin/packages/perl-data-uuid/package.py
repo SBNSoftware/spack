@@ -11,7 +11,7 @@ class PerlDataUuid(PerlPackage):
     homepage = "https://metacpan.org/pod/Data::UUID"
     url = "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Data-UUID-1.226.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vitodb")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("BSD")
 

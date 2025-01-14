@@ -11,7 +11,7 @@ class PerlDatetimeLocale(PerlPackage):
     homepage = "https://metacpan.org/pod/DateTime::Locale"
     url = "https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/DateTime-Locale-1.40.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vitodb")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 

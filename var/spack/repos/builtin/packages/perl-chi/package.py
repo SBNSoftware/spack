@@ -11,7 +11,7 @@ class PerlChi(PerlPackage):
     homepage = "https://metacpan.org/pod/CHI"
     url = "https://cpan.metacpan.org/authors/id/A/AS/ASB/CHI-0.61.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vitodb")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("Artistic-1.0-Perl OR GPL-1.0-or-later")
 

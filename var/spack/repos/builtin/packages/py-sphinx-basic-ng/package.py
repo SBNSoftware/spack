@@ -13,7 +13,7 @@ class PySphinxBasicNg(PythonPackage):
 
     license("MIT")
 
-    maintainers("greenc-FNAL", "gartung", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "marcmengel")
 
     version("1.0.0b2", sha256="9ec55a47c90c8c002b5960c57492ec3021f5193cb26cebc2dc4ea226848651c9")
     version("0.0.1a12", sha256="cffffb14914ddd26c94b1330df1d72dab5a42e220aaeb5953076a40b9c50e801")

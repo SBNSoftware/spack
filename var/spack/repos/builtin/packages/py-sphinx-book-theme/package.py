@@ -13,7 +13,7 @@ class PySphinxBookTheme(PythonPackage):
 
     license("BSD-3-Clause")
 
-    maintainers("greenc-FNAL", "gartung", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "marcmengel")
 
     version("1.0.1", sha256="927b399a6906be067e49c11ef1a87472f1b1964075c9eea30fb82c64b20aedee")
     version("0.3.3", sha256="0ec36208ff14c6d6bf8aee1f1f8268e0c6e2bfa3cef6e41143312b25275a6217")

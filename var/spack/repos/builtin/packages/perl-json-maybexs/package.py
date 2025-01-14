@@ -11,7 +11,7 @@ class PerlJsonMaybexs(PerlPackage):
     homepage = "https://metacpan.org/pod/JSON::MaybeXS"
     url = "https://cpan.metacpan.org/authors/id/E/ET/ETHER/JSON-MaybeXS-1.004005.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vitodb")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     version(
         "1.004.005",

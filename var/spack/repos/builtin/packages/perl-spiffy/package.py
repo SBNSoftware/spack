@@ -11,7 +11,7 @@ class PerlSpiffy(PerlPackage):
     homepage = "https://metacpan.org/pod/Spiffy"
     url = "https://cpan.metacpan.org/authors/id/I/IN/INGY/Spiffy-0.46.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vito")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 

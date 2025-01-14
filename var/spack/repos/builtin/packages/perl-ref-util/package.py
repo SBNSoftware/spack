@@ -11,7 +11,7 @@ class PerlRefUtil(PerlPackage):
     homepage = "https://metacpan.org/pod/Ref::Util"
     url = "https://cpan.metacpan.org/authors/id/A/AR/ARC/Ref-Util-0.204.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vito")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("MIT")
 

@@ -11,7 +11,7 @@ class PyPydataSphinxTheme(PythonPackage):
     homepage = "https://pydata-sphinx-theme.readthedocs.io/en/stable"
     pypi = "pydata_sphinx_theme/pydata_sphinx_theme-0.9.0.tar.gz"
 
-    maintainers("greenc-FNAL", "gartung", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "marcmengel")
 
     license("BSD-3-Clause")
 

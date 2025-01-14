@@ -11,7 +11,7 @@ class PyWheyPth(PythonPackage):
     homepage = "https://github.com/repo-helper/whey-pth"
     pypi = "whey-pth/whey-pth-0.0.5.tar.gz"
 
-    maintainers("greenc-FNAL", "gartung", "LydDeb", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "LydDeb", "marcmengel")
 
     license("MIT")
 

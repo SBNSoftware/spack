@@ -13,7 +13,7 @@ class PerlCacheCache(PerlPackage):
 
     license("Artistic-1.0-Perl OR GPL-1.0-or-later")
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vitodb")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     version("1.08", sha256="d2c7fd5dba5dd010b7d8923516890bb6ccf6b5f188ccb69f35cb0fd6c031d1e8")
     version("1.07", sha256="c1afe8fff07f05385468f78f3fdbf1dbb5fd2bb70b50c25163d5be540bdc8d12")

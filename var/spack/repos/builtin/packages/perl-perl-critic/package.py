@@ -11,7 +11,7 @@ class PerlPerlCritic(PerlPackage):
     homepage = "https://metacpan.org/pod/Perl::Critic"
     url = "https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/Perl-Critic-1.152.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vito")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("Artistic-1.0-Perl OR GPL-1.0-or-later")
 

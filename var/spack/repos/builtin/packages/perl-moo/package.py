@@ -14,7 +14,7 @@ class PerlMoo(PerlPackage):
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 
-    maintainers("greenc-FNAL", "gartung", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "marcmengel")
 
     version(
         "2.005.005",

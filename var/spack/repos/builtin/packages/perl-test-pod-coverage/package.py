@@ -11,7 +11,7 @@ class PerlTestPodCoverage(PerlPackage):
     homepage = "https://metacpan.org/pod/Test::Pod::Coverage"
     url = "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Test-Pod-Coverage-1.10.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vito")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("Artistic-2.0")
 

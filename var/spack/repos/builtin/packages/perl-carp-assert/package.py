@@ -13,7 +13,7 @@ class PerlCarpAssert(PerlPackage):
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 
-    maintainers("greenc-FNAL", "gartung", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "marcmengel")
 
     version("0.22", sha256="807ea97c6bed76ac2e4969efba7dae48fefeb9f28797f112671b3ac8a49355f7")
     version(

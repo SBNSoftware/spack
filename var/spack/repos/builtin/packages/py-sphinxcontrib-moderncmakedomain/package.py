@@ -11,7 +11,7 @@ class PySphinxcontribModerncmakedomain(PythonPackage):
     homepage = "https://github.com/scikit-build/moderncmakedomain"
     pypi = "sphinxcontrib_moderncmakedomain/sphinxcontrib_moderncmakedomain-3.25.0.tar.gz"
 
-    maintainers("greenc-FNAL", "gartung", "LydDeb", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "LydDeb", "marcmengel")
 
     license("BSD-3-Clause")
 

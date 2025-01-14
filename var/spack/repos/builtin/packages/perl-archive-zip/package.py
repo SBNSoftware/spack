@@ -13,7 +13,7 @@ class PerlArchiveZip(PerlPackage):
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 
-    maintainers("greenc-FNAL", "gartung", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "marcmengel")
 
     version("1.68", sha256="984e185d785baf6129c6e75f8eb44411745ac00bf6122fb1c8e822a3861ec650")
     version("1.67", sha256="be2274344c7659bf9189838dc6b9a59ec6f957c74ddfd35ff2780d56f4592774")

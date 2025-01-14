@@ -11,7 +11,7 @@ class PerlNamespaceAutoclean(PerlPackage):
     homepage = "https://metacpan.org/pod/namespace::autoclean"
     url = "https://cpan.metacpan.org/authors/id/E/ET/ETHER/namespace-autoclean-0.29.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vitodb")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 

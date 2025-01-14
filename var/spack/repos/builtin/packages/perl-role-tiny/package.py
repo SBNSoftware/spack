@@ -12,7 +12,7 @@ class PerlRoleTiny(PerlPackage):
     homepage = "https://cpan.metacpan.org/authors/id/H/HA/HAARG"
     url = "https://cpan.metacpan.org/authors/id/H/HA/HAARG/Role-Tiny-2.002004.tar.gz"
 
-    maintainers("greenc-FNAL", "gartung", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "marcmengel")
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 

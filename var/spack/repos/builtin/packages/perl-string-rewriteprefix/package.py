@@ -11,7 +11,7 @@ class PerlStringRewriteprefix(PerlPackage):
     homepage = "https://metacpan.org/pod/String::RewritePrefix"
     url = "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/String-RewritePrefix-0.009.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vito")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("Artistic-1.0-Perl OR GPL-1.0-or-later")
 

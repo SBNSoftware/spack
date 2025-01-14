@@ -11,7 +11,7 @@ class PerlLogAny(PerlPackage):
     homepage = "https://metacpan.org/pod/Log::Any"
     url = "https://cpan.metacpan.org/authors/id/P/PR/PREACTION/Log-Any-1.717.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vito")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 

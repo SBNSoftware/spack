@@ -11,7 +11,7 @@ class PerlSerealDecoder(PerlPackage):
     homepage = "https://metacpan.org/pod/Sereal::Decoder"
     url = "https://cpan.metacpan.org/authors/id/Y/YV/YVES/Sereal-Decoder-5.004.tar.gz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vito")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("Artistic-1.0-Perl OR GPL-1.0-or-later")
 

@@ -13,7 +13,7 @@ class PerlFileSharedir(PerlPackage):
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vitodb")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     version("1.118", sha256="3bb2a20ba35df958dc0a4f2306fc05d903d8b8c4de3c8beefce17739d281c958")
     version("1.117_001", sha256="15bef8c556a7b426760586f8ec13e1cca775b8f76f4db54acd99250e0b56a990")

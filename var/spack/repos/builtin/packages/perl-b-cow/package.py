@@ -13,7 +13,7 @@ class PerlBCow(PerlPackage):
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vitodb")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     version("0.007", sha256="1290daf227e8b09889a31cf182e29106f1cf9f1a4e9bf7752f9de92ed1158b44")
     version("0.004", sha256="fcafb775ed84a45bc2c06c5ffd71342cb3c06fb0bdcd5c1b51b0c12f8b585f51")

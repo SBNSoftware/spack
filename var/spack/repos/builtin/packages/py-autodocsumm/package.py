@@ -11,7 +11,7 @@ class PyAutodocsumm(PythonPackage):
     homepage = "https://github.com/Chilipp/autodocsumm"
     pypi = "autodocsumm/autodocsumm-0.2.11.tar.gz"
 
-    maintainers("greenc-FNAL", "gartung", "LydDeb", "marcmengel", "vitodb")
+    maintainers("gartung", "greenc-FNAL", "LydDeb", "marcmengel")
 
     license("Apache-2.0")
 

@@ -11,7 +11,7 @@ class PerlConfigTiny(PerlPackage):
     homepage = "https://metacpan.org/pod/Config::Tiny"
     url = "https://cpan.metacpan.org/authors/id/R/RS/RSAVAGE/Config-Tiny-2.30.tgz"
 
-    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel", "vitodb")
+    maintainers("greenc-FNAL", "EbiArnie", "gartung", "marcmengel")
 
     license("GPL-1.0-or-later OR Artistic-1.0-Perl")
 
