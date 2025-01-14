@@ -1,5 +1,4 @@
-# Copyright 2013-2024 Lawrence Livermore National Security, LLC and other
-# Spack Project Developers. See the top-level COPYRIGHT file for details.
+# Copyright Spack Project Developers. See COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
@@ -41,6 +40,7 @@ class Acts(CMakePackage, CudaPackage):
     # Supported Acts versions
     version("main", branch="main")
     version("master", branch="main", deprecated=True)  # For compatibility
+    version("38.2.0", commit="9cb8f4494656553fd9b85955938b79b2fac4c9b0", submodules=True)
     version("38.1.0", commit="8a20c88808f10bf4fcdfd7c6e077f23614c3ab90", submodules=True)
     version("38.0.0", commit="0a6b5155e29e3b755bf351b8a76067fff9b4214b", submodules=True)
     version("37.4.0", commit="4ae9a44f54c854599d1d753222ec36e0b5b4e9c7", submodules=True)
@@ -514,6 +514,8 @@ class Acts(CMakePackage, CudaPackage):
         # Use dependencies provided by spack
         if spec.satisfies("@20.3:"):
             args.append("-DACTS_USE_SYSTEM_LIBS=ON")
+            if spec.satisfies("@35.1:36.0"):
+                args.append("-DACTS_USE_SYSTEM_DFELIBS=OFF")
         else:
             if spec.satisfies("+autodiff"):
                 args.append("-DACTS_USE_SYSTEM_AUTODIFF=ON")
