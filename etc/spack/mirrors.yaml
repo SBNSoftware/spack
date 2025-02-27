@@ -29,6 +29,6 @@ mirrors:
   sbndaq-suite-v1_10_03:
     url: file:///daq/software/spack_mirrors/sbndaq-suite/v1_10_03
     signed: false
-  sbndaq-suite-v1_10_04:
-    url: file:///daq/software/spack_mirrors/sbndaq-suite/v1_10_04
-    signed: false
+  #  sbndaq-suite-v1_10_04:
+  #  url: file:///daq/software/spack_mirrors/sbndaq-suite/v1_10_04
+  #  signed: false
