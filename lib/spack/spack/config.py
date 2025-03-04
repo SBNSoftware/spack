@@ -1619,8 +1619,8 @@ def platform_scopes(name: str, path: str, writable: bool = True) -> Sequence[Dir
 
     host_platform = spack.platforms.host()
     platform = host_platform.name
-    oss = str(host_platform.operating_system("frontend"))
-    host_target = str(host_platform.target("frontend"))
+    oss = str(host_platform.operating_system("default_os"))
+    host_target = str(host_platform.target("default_os"))
 
     scope_name = os.path.join(name, platform)
     scope_path = os.path.join(path, platform)
