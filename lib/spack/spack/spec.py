@@ -2708,7 +2708,7 @@ class Spec:
                 return name, depflag
 
             def spec_and_dependency_types(
-                s: Union[Spec, Tuple[Spec, str]],
+                s: Union[Spec, Tuple[Spec, str]]
             ) -> Tuple[Spec, dt.DepFlag]:
                 """Given a non-string key in the literal, extracts the spec
                 and its dependency types.
@@ -5128,6 +5128,13 @@ def get_host_environment() -> Dict[str, Any]:
         "arch_str": str(arch_spec),
         "hostname": socket.gethostname(),
     }
+
+
+def eval_conditional(string):
+    """Evaluate conditional definitions using restricted variable scope."""
+    valid_variables = get_host_environment()
+    valid_variables.update({"re": re, "env": os.environ})
+    return eval(string, valid_variables)
 
 
 class SpecParseError(spack.error.SpecError):
