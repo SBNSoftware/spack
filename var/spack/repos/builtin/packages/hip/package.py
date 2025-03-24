@@ -343,7 +343,7 @@ class Hip(CMakePackage):
     patch("0014-remove-compiler-rt-linkage-for-host.6.0.patch", when="@6.0")
     patch("0014-remove-compiler-rt-linkage-for-host.6.1.patch", when="@6.1")
     patch("0015-reverting-operator-mixup-fix-for-slate.patch", when="@5.6:6.0")
-    patch("0018-reverting-hipMemoryType-with-memoryType.patch", when="@6.0:")
+    patch("0018-reverting-hipMemoryType-with-memoryType.patch", when="@6.0:6.2")
 
     # See https://github.com/ROCm/HIP/pull/3206
     patch(
@@ -563,6 +563,13 @@ class Hip(CMakePackage):
                 "clr/hipamd/hip-config-amd.cmake",
                 string=True,
             )
+        if self.spec.satisfies("@6.3: +rocm"):
+            filter_file(
+                '"${ROCM_PATH}/llvm"',
+                self.spec["llvm-amdgpu"].prefix,
+                "clr/hipamd/hip-config-amd.cmake.in",
+                string=True,
+            )
         perl = self.spec["perl"].command
 
         if self.spec.satisfies("@:5.5"):
@@ -588,18 +595,19 @@ class Hip(CMakePackage):
 
     def cmake_args(self):
         args = [
-            # find_package(Clang) and find_package(LLVM) in clr/hipamd/src/hiprtc/CMakeLists.txt
-            # should find llvm-amdgpu
-            self.define("LLVM_ROOT", self.spec["llvm-amdgpu"].prefix),
-            self.define("Clang_ROOT", self.spec["llvm-amdgpu"].prefix),
             # Use the new behaviour of the policy CMP0074
             # (https://cmake.org/cmake/help/latest/policy/CMP0074.html) which will search
             # "prefixes specified by the <PackageName>_ROOT CMake variable".
             # From HIP 6.2 onwards the policy is set explicitly by HIP itself:
             # https://github.com/ROCm/clr/commit/a2a8dad980b0fa1a6086e0c0f95847ae80f5a2c6.
-            self.define("CMAKE_POLICY_DEFAULT_CMP0074", "NEW"),
+            self.define("CMAKE_POLICY_DEFAULT_CMP0074", "NEW")
         ]
         if self.spec.satisfies("+rocm"):
+            # find_package(Clang) and find_package(LLVM) in clr/hipamd/src/hiprtc/CMakeLists.txt
+            # should find llvm-amdgpu
+            args.append(self.define("LLVM_ROOT", self.spec["llvm-amdgpu"].prefix))
+            args.append(self.define("Clang_ROOT", self.spec["llvm-amdgpu"].prefix))
+
             args.append(self.define("HSA_PATH", self.spec["hsa-rocr-dev"].prefix))
             args.append(self.define("HIP_COMPILER", "clang"))
             args.append(
