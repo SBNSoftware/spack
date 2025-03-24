@@ -229,12 +229,12 @@ def config_list(args):
 
 def config_list_scopes(args):
     scopes = (
-        reversed(spack.config.CONFIG.file_scopes)
+        spack.config.writable_scopes()
         if args.file
         else (
-            spack.config.CONFIG._non_platform_scopes
+            (s for s in spack.config.scopes().reversed_values() if not s.is_platform_dependent)
             if args.non_platform
-            else reversed(spack.config.CONFIG.scopes.values())
+            else spack.config.scopes().reversed_values()
         )
     )
     print(" ".join([s.name for s in scopes]))
@@ -375,9 +375,12 @@ def _config_change(config_path, match_spec_str=None):
                 if spack.config.get(key_path, scope=scope):
                     ideal_scope_to_modify = scope
                     break
+            # If we find our key in a specific scope, that's the one we want
+            # to modify. Otherwise we use the default write scope.
+            write_scope = ideal_scope_to_modify or spack.config.default_modify_scope()
 
             update_path = f"{key_path}:[{str(spec)}]"
-            spack.config.add(update_path, scope=ideal_scope_to_modify)
+            spack.config.add(update_path, scope=write_scope)
     else:
         raise ValueError("'config change' can currently only change 'require' sections")
 

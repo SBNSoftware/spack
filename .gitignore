@@ -213,7 +213,6 @@ tramp
 
 # Org-mode
 .org-id-locations
-*_archive
 
 # flymake-mode
 *_flymake.*

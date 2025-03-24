@@ -38,6 +38,24 @@ def config_yaml_v015(mutable_config):
     return functools.partial(_create_config, data=old_data, section="config")
 
 
+def test_config_list_scopes():
+    output = config("list-scopes")
+    assert "command_line" in output
+    assert "_builtin" in output
+
+
+def test_config_list_scopes_file():
+    output = config("list-scopes", "--file")
+    assert "site" in output
+    assert "_builtin" not in output
+
+
+def test_config_list_scopes_non_platform():
+    output = config("list-scopes", "--non-platform")
+    assert "site" in output
+    assert "user" in output
+
+
 def test_get_config_scope(mock_low_high_config):
     assert config("get", "compilers").strip() == "compilers: {}"
 
@@ -213,7 +231,7 @@ def test_config_add_update_dict(mutable_empty_config):
 
 def test_config_with_c_argument(mutable_empty_config):
     # I don't know how to add a spack argument to a Spack Command, so we test this way
-    config_file = "config:install_root:root:/path/to/config.yaml"
+    config_file = "config:install_tree:root:/path/to/config.yaml"
     parser = spack.main.make_argument_parser()
     args = parser.parse_args(["-c", config_file])
     assert config_file in args.config_vars
@@ -221,7 +239,7 @@ def test_config_with_c_argument(mutable_empty_config):
     # Add the path to the config
     config("add", args.config_vars[0], scope="command_line")
     output = config("get", "config")
-    assert "config:\n  install_root:\n    root: /path/to/config.yaml" in output
+    assert "config:\n  install_tree:\n    root: /path/to/config.yaml" in output
 
 
 def test_config_add_ordered_dict(mutable_empty_config):
@@ -636,23 +654,3 @@ spack:
 
     with ev.Environment(str(tmpdir)) as e:
         assert not e.manifest.yaml_content["spack"]["config"]["ccache"]
-
-
-def test_config_list_scopes():
-    output = config("list-scopes")
-    assert "command_line" in output
-    assert "_builtin" in output
-    assert any("/" in s for s in output)
-
-
-def test_config_list_scopes_file():
-    output = config("list-scopes", "--file")
-    assert "site" in output
-    assert "_builtin" not in output
-    assert any("/" in s for s in output)
-
-
-def test_config_list_scopes_non_platform():
-    output = config("list-scopes", "--non-platform")
-    assert "site" in output
-    assert "default" in output
