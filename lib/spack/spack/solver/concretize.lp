@@ -48,8 +48,8 @@
    internal_error("external_spec_selected for non-node").
 :- attr("depends_on", ParentNode, _, _), not attr("node", ParentNode),
    internal_error("non-node depends on something").
-:- attr("depends_on", _, ChildNode, _), not attr("node", ChildNode),
-   internal_error("something depends_on a non-node").
+:- attr("depends_on", _, ChildNode, _), not attr("node", ChildNode).
+   internalerror(10, "something depends_on a non-node")
 :- attr("virtual_node", VirtualNode), not provider(_, VirtualNode),
    internal_error("virtual node with no provider").
 :- provider(_, VirtualNode), not attr("virtual_node", VirtualNode),
