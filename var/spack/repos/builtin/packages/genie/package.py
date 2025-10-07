@@ -59,6 +59,15 @@ class Genie(Package):
 
     # GENIE Makefile's think that the spack compiler is invalid.
     # Disables this check.
+
+    resource(
+        name="reweight",
+        url="https://github.com/GENIE-MC/Reweight/archive/R-1_02_02.tar.gz",
+        sha256="741b323381079d0764b14095b12a16049930cbdfac182110fdda3c3263fb37b3",
+        placement="Reweight",
+        when="@3.4.2:",
+    )
+
     patch("genie_disable_gopt_with_compiler_check.patch", level=0, when="@2.11:")
 
     patch("GENIE-Generator.patch")
