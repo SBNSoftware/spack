@@ -15,6 +15,8 @@ class Libbson(AutotoolsPackage, CMakePackage):
 
     maintainers("michaelkuhn")
 
+    version("2.3.0", sha256="0edd0e143af77861309d59c5c029d2408df7348c429c5e1f483c7ba449cb35ce")
+    version("1.29.0", sha256="507414795dfb24ddf1a418b155b57459d8cea1191c7f0fcd8b826acf5400343c")
     version("1.27.2", sha256="a53010803e2df097a2ea756be6ece34c8f52cda2c18e6ea21115097b75f5d4bf")
     version("1.24.4", sha256="2f4a3e8943bfe3b8672c2053f88cf74acc8494dc98a45445f727901eee141544")
     version("1.23.4", sha256="209406c91fcf7c63aa633179a0a6b1b36ba237fb77e0470fd81f7299a408e334")
@@ -73,9 +75,13 @@ class Libbson(AutotoolsPackage, CMakePackage):
 
 class CMakeBuilder(cmake.CMakeBuilder):
     def cmake_args(self):
-        return [
-            self.define("ENABLE_AUTOMATIC_INIT_AND_CLEANUP", False),
+        args = [
             self.define("ENABLE_MONGOC", False),
             self.define("MONGO_USE_CCACHE", False),
             self.define("MONGO_USE_LLD", False),
         ]
+
+        if self.spec.satisfies("@:1"):
+            args.append(self.define("ENABLE_AUTOMATIC_INIT_AND_CLEANUP", False))
+
+        return args

@@ -16,6 +16,8 @@ class MongoCDriver(AutotoolsPackage, CMakePackage):
 
     license("Apache-2.0")
 
+    version("2.3.0", sha256="0edd0e143af77861309d59c5c029d2408df7348c429c5e1f483c7ba449cb35ce")
+    version("1.29.0", sha256="507414795dfb24ddf1a418b155b57459d8cea1191c7f0fcd8b826acf5400343c")
     version("1.27.2", sha256="a53010803e2df097a2ea756be6ece34c8f52cda2c18e6ea21115097b75f5d4bf")
     version("1.24.4", sha256="2f4a3e8943bfe3b8672c2053f88cf74acc8494dc98a45445f727901eee141544")
     version("1.23.3", sha256="c8f951d4f965d455f37ae2e10b72914736fc0f25c4ffc14afc3cbadd1a574ef6")
@@ -78,6 +80,8 @@ class MongoCDriver(AutotoolsPackage, CMakePackage):
     depends_on("pkgconfig", type="build")
 
     # When updating mongo-c-driver, libbson has to be kept in sync.
+    depends_on("libbson@2.3", when="@2.3")
+    depends_on("libbson@1.29", when="@1.29")
     depends_on("libbson@1.27", when="@1.27")
     depends_on("libbson@1.24", when="@1.24")
     depends_on("libbson@1.23", when="@1.23")
@@ -103,13 +107,15 @@ class MongoCDriver(AutotoolsPackage, CMakePackage):
 class CMakeBuilder(cmake.CMakeBuilder):
     def cmake_args(self):
         args = [
-            self.define("ENABLE_AUTOMATIC_INIT_AND_CLEANUP", False),
             self.define("ENABLE_MONGOC", True),
             self.define("MONGO_USE_CCACHE", False),
             self.define("MONGO_USE_LLD", False),
             self.define_from_variant("ENABLE_SNAPPY", "snappy"),
             self.define_from_variant("ENABLE_ZSTD", "zstd"),
         ]
+
+        if self.spec.satisfies("@:1"):
+            args.append(self.define("ENABLE_AUTOMATIC_INIT_AND_CLEANUP", False))
 
         if self.spec.satisfies("@1.24:"):
             args.append(self.define("USE_SYSTEM_LIBBSON", True))
